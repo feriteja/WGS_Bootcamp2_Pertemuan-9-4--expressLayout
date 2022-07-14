@@ -1,10 +1,16 @@
 // const http = require("http");
 const fs = require("fs");
 const express = require("express");
+
+var expressLayouts = require("express-ejs-layouts");
 const app = express();
 const port = 3000;
 
 app.set("view engine", "ejs");
+app.set("layout extractScripts", true);
+app.set("layout extractStyles", true);
+
+app.use(expressLayouts);
 
 // app.use((req, res, next) => {
 //   console.log("time", Date.now());
@@ -39,11 +45,11 @@ app.get("/", (req, res) => {
 });
 
 app.get("/about", (req, res) => {
-  res.render("about", { title: "EJS layout" });
+  res.render("about");
 });
 
 app.get("/contact", (req, res) => {
-  res.render("contact", { title: "EJS layout" });
+  res.render("contact");
 });
 
 app.get("/product/:id", (req, res) => {
@@ -52,6 +58,10 @@ app.get("/product/:id", (req, res) => {
     `product id: ${req.params.id} <br /> category id: ${req.query.category} `
   );
 });
+
+// app.get("/product/:id", (req, res) => {
+//   res.send(`product id: ${req.params.id}`);
+// });
 
 app.get("/product/:id/category/:idcat", (req, res) => {
   res.send(
@@ -66,3 +76,21 @@ app.use("/", (req, res) => {
 app.listen(port, () => {
   console.log(`your server listening on port ${port}`);
 });
+
+// http
+//   .createServer((req, res) => {
+//     const url = req.url;
+
+//     res.writeHead(200, { "Content-type": "text/html" });
+
+//     if (url === "/about") {
+//       goToPage("./about.html", res);
+//     } else if (url === "/contact") {
+//       goToPage("./contact.html", res);
+//     } else {
+//       goToPage("./index.html", res);
+//     }
+//   })
+//   .listen(3000, () => {
+//     console.log("server run on port 3000");
+//   });
